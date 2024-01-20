@@ -16,3 +16,5 @@ export const weekdays = [
   'Fri',
   'Sat'
 ] as const
+
+export type Weekday = typeof weekdays[number]

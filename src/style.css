@@ -22,7 +22,6 @@ main {
   border-radius: 8px;
   padding: 16px;
   border: 1px solid gray;
-  height: 400px;
 }
 
 #calendar {
@@ -55,15 +54,23 @@ main {
   justify-content: space-around;
 }
 
+#calendar .dates {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
 #calendar .datesRow {
   display: flex;
   justify-content: space-around;
+  gap: 8px;
 }
 
 #editor textarea {
   width: 100%;
   height: 100%;
   resize: none;
+  border: none;
 }
 
 button {
@@ -81,15 +88,24 @@ button {
   font-size: 1.15rem;
 }
 
+#calendar button.differentMonth {
+  opacity: 0.5;
+}
+
+#calendar button {
+  transition: background 0.3s ease-in;
+}
+
+#calendar button:hover {
+  background: #cacaca;
+  transition: background 0.15s ease-out;
+}
+
 #calendar button[aria-selected="true"] {
   background: #202020;
   color: #eaeaea;
+  opacity: 1;
 }
-
-#calendar button[aria-selected="true"]::after {
-  display: none;
-}
-
 
 #calendar button[data-hasNote="true"] {
   position: relative;
@@ -97,11 +113,15 @@ button {
 
 #calendar button[data-hasnote="true"]::after {
   position: absolute;
-  top: 8px;
-  right: 8px;
+  top: 4px;
+  right: 4px;
   height: 8px;
   width: 8px;
   border-radius: 50%;
   background-color: red;
   content: ' ';
+}
+
+#calendar button[aria-selected="true"][data-hasnote="true"]::after {
+  display: none;
 }

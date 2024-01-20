@@ -1,9 +1,41 @@
-import { currentMonth, dates, nextMonthButton, nextYearButton, prevMonthButton, prevYearButton, weekdays } from './constants'
+import { Weekday, currentMonth, dates, nextMonthButton, nextYearButton, prevMonthButton, prevYearButton, weekdays } from './constants'
 import { Store } from './lib'
 import { monthFormatter } from './utils'
 
 type CalendarProps = {
   store: Store
+}
+
+type BuildDateButtonOptions = {
+  button: HTMLButtonElement
+  date: Date
+  store: Store
+}
+
+const buildDateButton = ({ button, date, store }: BuildDateButtonOptions) => {
+  button.innerText = String(date.getDate())
+
+  const shownMonth = store.shownDate.getMonth()
+  const note = store.getNote(date)
+
+  if (Number(date) === Number(store.selectedDate)) {
+    button.setAttribute('aria-selected', 'true')
+  }
+
+  if (note) {
+    button.setAttribute('data-hasnote', 'true')
+  }
+
+  if (shownMonth !== date.getMonth()) {
+    button.setAttribute('class', 'differentMonth')
+  }
+
+  button.onclick = () => {
+    console.log('click', date)
+    store.setSelectedDate(date)
+  }
+
+  return button
 }
 
 export const renderCalendar = ({ store }: CalendarProps) => {
@@ -35,9 +67,38 @@ export const renderCalendar = ({ store }: CalendarProps) => {
   
   let curr = new Date(startOfMonth)
 
+  const firstWeekdayOfMonth = curr.toLocaleString('default', {
+    weekday: 'short'
+  }) as Weekday
+
+  const numberOfDaysToBackfill = weekdays.indexOf(firstWeekdayOfMonth)
+  const backfilledDayButtons = [] as HTMLButtonElement[]
+
+  Array.from({ length: numberOfDaysToBackfill }).forEach((_, index) => {
+    const offset = index + 1
+    const date = new Date(startOfMonth)
+    date.setDate(date.getDate() - offset)
+
+    const button = buildDateButton({
+      button: document.createElement('button'),
+      date,
+      store
+    })
+
+    backfilledDayButtons.unshift(button)
+  })
+
   while (curr < startOfNextMonth) {
     const row = document.createElement('div')
     row.setAttribute('class', 'datesRow')
+
+    while (backfilledDayButtons.length > 0) {
+      const button = backfilledDayButtons.shift()
+
+      if (button) {
+        row.appendChild(button)
+      }
+    }
 
     weekdays.forEach(weekday => {
       const weekdayName = curr.toLocaleString('default', {
@@ -45,33 +106,12 @@ export const renderCalendar = ({ store }: CalendarProps) => {
       })
       const button = document.createElement('button')
 
-      if (curr >= startOfMonth) {
-        button.innerText = ' '
-      }
-
       if (weekdayName === weekday) {
-        button.innerText = String(curr.getDate())
+        buildDateButton({ button, date: new Date(curr), store })
+        row.appendChild(button)
+
         curr.setDate(curr.getDate() + 1)
-
-        const thisDate = new Date(curr)
-        button.onclick = () => {
-          store.setSelectedDate(thisDate)
-        }
-
-        const note = store.getNote(thisDate)
-
-        if (note) {
-          button.setAttribute('data-hasnote', 'true')
-        }
-      } else {
-        button.innerText = ''
       }
-
-      if (Number(curr) === Number(store.selectedDate)) {
-        button.setAttribute('aria-selected', 'true')
-      }
-
-      row.appendChild(button)
     })
 
     dates.appendChild(row)
