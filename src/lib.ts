@@ -20,6 +20,11 @@ const getPersistedNotes = () => {
     return {}
   }
 }
+
+const getKeyFromDate = (date: Date) => {
+  return Number(date)
+}
+
 export const initStore = (renderFn: RenderFunction) => (() => {
   const state = {
     shownDate: today,
@@ -61,8 +66,11 @@ export const initStore = (renderFn: RenderFunction) => (() => {
 
       rerender()
     },
+    getNote: (date: Date) => {
+      return state.notes[getKeyFromDate(date)]
+    },
     setNoteForSelectedDate: (note: string) => {
-      state.notes[Number(state.selectedDate)] = note
+      state.notes[getKeyFromDate(state.selectedDate)] = note
 
       localStorage.setItem(storageKey, JSON.stringify(state.notes))
     },

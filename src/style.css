@@ -38,6 +38,17 @@ main {
   justify-content: space-between;
 }
 
+#calendar .header > div {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+#calendar .header button {
+  border: 1px solid black;
+  border-radius: 8px;
+}
+
 #calendar .days {
   margin-top: 32px;
   display: flex;
@@ -55,6 +66,42 @@ main {
   resize: none;
 }
 
-#calendar button.isSelected {
-  background: red;
+button {
+  margin: 0;
+  padding: 8px 12px;
+  line-height: 1.5;
+  background: transparent;
+  border: none;
+}
+
+#calendar .dates button {
+  aspect-ratio: 1/1;
+  border-radius: 50%;
+  flex: 1;
+  font-size: 1.15rem;
+}
+
+#calendar button[aria-selected="true"] {
+  background: #202020;
+  color: #eaeaea;
+}
+
+#calendar button[aria-selected="true"]::after {
+  display: none;
+}
+
+
+#calendar button[data-hasNote="true"] {
+  position: relative;
+}
+
+#calendar button[data-hasnote="true"]::after {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  height: 8px;
+  width: 8px;
+  border-radius: 50%;
+  background-color: red;
+  content: ' ';
 }

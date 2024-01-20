@@ -32,7 +32,7 @@ export const renderCalendar = ({ store }: CalendarProps) => {
   const startOfNextMonth = new Date(shownDate)
   startOfNextMonth.setMonth(startOfNextMonth.getMonth() + 1)
   startOfNextMonth.setDate(1)
-
+  
   let curr = new Date(startOfMonth)
 
   while (curr < startOfNextMonth) {
@@ -57,12 +57,18 @@ export const renderCalendar = ({ store }: CalendarProps) => {
         button.onclick = () => {
           store.setSelectedDate(thisDate)
         }
+
+        const note = store.getNote(thisDate)
+
+        if (note) {
+          button.setAttribute('data-hasnote', 'true')
+        }
       } else {
-        button.innerText = ' '
+        button.innerText = ''
       }
 
       if (Number(curr) === Number(store.selectedDate)) {
-        button.setAttribute('class', 'isSelected')
+        button.setAttribute('aria-selected', 'true')
       }
 
       row.appendChild(button)
