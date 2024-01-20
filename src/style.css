@@ -9,10 +9,13 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-main {
+body {
   width: 100%;
   max-width: 800px;
   margin: 0 auto;
+}
+
+main {
   display: flex;
   gap: 24px;
   margin-top: 80px;
@@ -139,4 +142,17 @@ button {
 
 #calendar button[aria-selected="true"][data-hasnote="true"]::after {
   display: none;
+}
+
+.csvButtonWrapper {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 16px;
+}
+
+#downloadCsvButton {
+  border-radius: 8px;
+  padding: 8px 16px;
+  background: rgb(100, 160, 250);
+  color: #fafafa;
 }

@@ -31,7 +31,6 @@ const buildDateButton = ({ button, date, store }: BuildDateButtonOptions) => {
   }
 
   button.onclick = () => {
-    console.log('click', date)
     store.setSelectedDate(date)
   }
 
