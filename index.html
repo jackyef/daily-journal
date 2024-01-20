@@ -7,7 +7,31 @@
     <title>Vite + TS</title>
   </head>
   <body>
-    <div id="app"></div>
+    <main>
+      <div id="calendar">
+        <div class="header">
+          <button>&larr;</button>
+          <div class="currentMonth">{{month}} {{year}}</div>
+          <button>&rarr;</button>
+        </div>
+        <div class="days">
+          <div>Sun</div>
+          <div>Mon</div>
+          <div>Tue</div>
+          <div>Wed</div>
+          <div>Thu</div>
+          <div>Fri</div>
+          <div>Sat</div>
+        </div>
+        <div class="dates">
+          <!-- Rendered in JS -->
+        </div>
+      </div>
+      
+      <div id="editor">
+        <textarea></textarea>
+      </div>
+    </main>
     <script type="module" src="/src/main.ts"></script>
   </body>
 </html>
