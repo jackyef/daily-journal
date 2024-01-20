@@ -6,11 +6,25 @@ today.setMilliseconds(0)
 
 type RenderFunction = (store: Store) => void
 
+const storageKey = '__persistedNotes'
+const getPersistedNotes = () => {
+  try {
+    const storedNotes = localStorage.getItem(storageKey)
+    
+    if (storedNotes) {
+      return JSON.parse(storedNotes)
+    }
+
+    return {}
+  } catch {
+    return {}
+  }
+}
 export const initStore = (renderFn: RenderFunction) => (() => {
   const state = {
     shownDate: today,
     selectedDate: today,
-    notes: {} as Record<number, string> // Record<timestamp, Note>
+    notes: getPersistedNotes() as Record<number, string> // Record<timestamp, Note>
   }
 
   const actions = {
@@ -33,8 +47,24 @@ export const initStore = (renderFn: RenderFunction) => (() => {
 
       rerender()
     },
+    showNextYear: () => {
+      const newMonth = new Date(state.shownDate)
+      newMonth.setFullYear(newMonth.getFullYear() + 1)
+      state.shownDate = newMonth
+
+      rerender()
+    },
+    showPreviousYear: () => {
+      const newMonth = new Date(state.shownDate)
+      newMonth.setFullYear(newMonth.getFullYear() - 1)
+      state.shownDate = newMonth
+
+      rerender()
+    },
     setNoteForSelectedDate: (note: string) => {
       state.notes[Number(state.selectedDate)] = note
+
+      localStorage.setItem(storageKey, JSON.stringify(state.notes))
     },
     getNoteForSelectedDate: () => {
       return state.notes[Number(state.selectedDate)] ?? ''

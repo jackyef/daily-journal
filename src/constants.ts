@@ -4,6 +4,8 @@ export const dates = document.querySelector('#calendar .dates') as HTMLDivElemen
 export const currentMonth = document.querySelector('#calendar .currentMonth') as HTMLDivElement
 export const prevMonthButton = document.getElementById('prevMonth') as HTMLButtonElement
 export const nextMonthButton = document.getElementById('nextMonth') as HTMLButtonElement
+export const prevYearButton = document.getElementById('prevYear') as HTMLButtonElement
+export const nextYearButton = document.getElementById('nextYear') as HTMLButtonElement
 
 export const weekdays = [
   'Sun',

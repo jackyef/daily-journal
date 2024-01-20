@@ -1,4 +1,4 @@
-import { currentMonth, dates, nextMonthButton, prevMonthButton, weekdays } from './constants'
+import { currentMonth, dates, nextMonthButton, nextYearButton, prevMonthButton, prevYearButton, weekdays } from './constants'
 import { Store } from './lib'
 import { monthFormatter } from './utils'
 
@@ -18,9 +18,13 @@ export const renderCalendar = ({ store }: CalendarProps) => {
   // Listeners for next/prev month buttons
   prevMonthButton.removeEventListener('click', store.showPreviousMonth)
   nextMonthButton.removeEventListener('click', store.showNextMonth)
+  prevYearButton.removeEventListener('click', store.showPreviousYear)
+  nextYearButton.removeEventListener('click', store.showNextYear)
 
   prevMonthButton.addEventListener('click', store.showPreviousMonth)
   nextMonthButton.addEventListener('click', store.showNextMonth)
+  prevYearButton.addEventListener('click', store.showPreviousYear)
+  nextYearButton.addEventListener('click', store.showNextYear)
 
   // Dates
   const startOfMonth = new Date(shownDate)
