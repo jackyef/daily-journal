@@ -1,26 +1,35 @@
-import { currentMonth, dates, weekdays } from './constants'
+import { currentMonth, dates, nextMonthButton, prevMonthButton, weekdays } from './constants'
 import { Store } from './lib'
 import { monthFormatter } from './utils'
 
 type CalendarProps = {
-  shownDate: Date
   store: Store
 }
 
-export const renderCalendar = ({ shownDate, store }: CalendarProps) => {
+export const renderCalendar = ({ store }: CalendarProps) => {
   // Unmount previous render
   dates.innerHTML = ''
 
   // Calendar header
+  const { shownDate } = store
   const calendarMonth = monthFormatter.format(shownDate)
   currentMonth.innerText = calendarMonth
 
+  // Listeners for next/prev month buttons
+  prevMonthButton.removeEventListener('click', store.showPreviousMonth)
+  nextMonthButton.removeEventListener('click', store.showNextMonth)
+
+  prevMonthButton.addEventListener('click', store.showPreviousMonth)
+  nextMonthButton.addEventListener('click', store.showNextMonth)
+
   // Dates
-  const startOfMonth = new Date(`${shownDate.getFullYear()}-${shownDate.getMonth() + 1}-01`)
-  const startOfNextMonth = new Date(`${shownDate.getFullYear()}-${shownDate.getMonth() + 2}-01`)
+  const startOfMonth = new Date(shownDate)
+  startOfMonth.setDate(1)
+  const startOfNextMonth = new Date(shownDate)
+  startOfNextMonth.setMonth(startOfNextMonth.getMonth() + 1)
+  startOfNextMonth.setDate(1)
 
   let curr = new Date(startOfMonth)
-
 
   while (curr < startOfNextMonth) {
     const row = document.createElement('div')
