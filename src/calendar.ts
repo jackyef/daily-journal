@@ -12,6 +12,8 @@ type BuildDateButtonOptions = {
   store: Store
 }
 
+// TODO: Add keyboard navigation
+// Navigate between dates with arrow keys
 const buildDateButton = ({ button, date, store }: BuildDateButtonOptions) => {
   button.innerText = String(date.getDate())
 

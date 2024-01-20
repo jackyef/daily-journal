@@ -32,6 +32,8 @@ export const initStore = (renderFn: RenderFunction) => (() => {
     notes: getPersistedNotes() as Record<number, string> // Record<timestamp, Note>
   }
 
+  // TODO: Move to IndexedDB
+  // Avoid loading every notes for all dates at once
   const persistToStorage = () => {
     localStorage.setItem(storageKey, JSON.stringify(state.notes))
   }
