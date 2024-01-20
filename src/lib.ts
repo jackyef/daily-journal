@@ -32,6 +32,10 @@ export const initStore = (renderFn: RenderFunction) => (() => {
     notes: getPersistedNotes() as Record<number, string> // Record<timestamp, Note>
   }
 
+  const persistToStorage = () => {
+    localStorage.setItem(storageKey, JSON.stringify(state.notes))
+  }
+
   const actions = {
     setSelectedDate: (date: Date) => {
       state.selectedDate = date
@@ -71,8 +75,12 @@ export const initStore = (renderFn: RenderFunction) => (() => {
     },
     setNoteForSelectedDate: (note: string) => {
       state.notes[getKeyFromDate(state.selectedDate)] = note
-
-      localStorage.setItem(storageKey, JSON.stringify(state.notes))
+      persistToStorage()
+    },
+    clearNoteForSelectedDate: () => {
+      state.notes[getKeyFromDate(state.selectedDate)] = ''
+      persistToStorage()
+      rerender()
     },
     getNoteForSelectedDate: () => {
       return state.notes[Number(state.selectedDate)] ?? ''

@@ -6,6 +6,7 @@ export const prevMonthButton = document.getElementById('prevMonth') as HTMLButto
 export const nextMonthButton = document.getElementById('nextMonth') as HTMLButtonElement
 export const prevYearButton = document.getElementById('prevYear') as HTMLButtonElement
 export const nextYearButton = document.getElementById('nextYear') as HTMLButtonElement
+export const clearNoteButton = document.getElementById('clearNote') as HTMLButtonElement
 
 export const weekdays = [
   'Sun',
